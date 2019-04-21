@@ -1,0 +1,21 @@
+﻿@{
+    Layout = $"_Layout";
+    @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+    ViewBag.Title = "Создание роли";
+}
+@model string
+
+
+<div class="body-content">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <form asp-action="Create" method="post">
+        <div class="form-group">
+            <label for="name">Название роли</label>
+            <input name="name" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-primary">Создать</button>
+        <a class="btn btn-default" asp-controller="RoleAdmin" asp-action="Index">Отмена</a>
+    </form>
+
+</div>

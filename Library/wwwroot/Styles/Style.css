@@ -1,0 +1,46 @@
+﻿header {
+    width: 100%;
+    height: 150px;
+    z-index: 10;
+    position: fixed;
+    margin: -15px;
+}
+
+.main-menu {
+    background-color: #17a2b8;
+}
+
+.body-content {
+    padding-top: 15%;
+}
+
+.container-search {
+    padding-top: 8px;
+}
+
+.cart {
+    margin-right: 120px;
+    margin-top: -40px;
+}
+
+.logo {
+    width: 100px;
+    height: 100px;
+    top: 10px;
+    right: 30px;
+    position: fixed;
+    z-index: 3;
+}
+
+.btn-menu {
+    background-color: #A9E8DC;
+}
+
+#input-search {
+    width: 300px;
+    padding-top: 5px;
+}
+
+    #input-search:invalid ~ span.icon {
+        display: none;
+    }

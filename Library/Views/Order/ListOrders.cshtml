@@ -1,0 +1,101 @@
+﻿@model IEnumerable<Library.Models.Order>
+@{
+    if (User.IsInRole("Librarian") || User.IsInRole("Admins"))
+    {
+        ViewBag.Title = "Запросы на взятие книг";
+
+    }
+    else
+    {
+        ViewBag.Title = "Ваши заказы";
+
+    }
+    Layout = $"_Layout";
+}
+<div class="body-content">
+    <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+
+    <table class="table table-condensed table-bordered table-bordered">
+        <tr>
+            @if ((User.IsInRole("Admins") || User.IsInRole("Librarian")) && ViewBag.IsLibrarianPage)
+            {
+                <th>Id заказа</th>
+            }
+            <th>Имя пользователя</th>
+            <th>Взятые книги</th>
+            <th>Статус</th>
+            <th>Дата создания заявки</th>
+            <th>Дата подтверждения заявки</th>
+            <th>Действия</th>
+        </tr>
+        @if (Model != null)
+        {
+            @if (Model.Count() == 0)
+            {
+                <tr><td colspan="4" class="text-center">Нет книг</td></tr>
+            }
+            else
+            {
+                foreach (var order in Model)
+                {
+                    <tr>
+                        @if ((User.IsInRole("Admins") || User.IsInRole("Librarian")) && ViewBag.IsLibrarianPage)
+                        {
+                            <td>@order.OrderID</td>
+                        }
+                        <td>@order.Name</td>
+                        <td>
+                            @foreach (var book in order.GetBooksFromOrder())
+                            {
+                                <h5>@book.Name</h5>
+                                @*<a asp-controller="Book" asp-action="Edit" asp-route-bookId="@book.BookId">@book.Name</a>*@
+                            }
+                        </td>
+                        <td>
+                            @if (order.TermUse < DateTime.Now.Date && order.Status == 1)
+                            {
+                                <span class="text-danger">Заявка просрочена</span>
+                            }
+                            else
+                            {
+                                switch (order.Status)
+                                {
+                                    case 0:<span>Заявка на получение была создана</span> break;
+                                    case 1: <span>Книга была выдана</span> break;
+                                    case 2: <span>Книга на проверке после возврата</span> break;
+                                    case 3: <span>Книга возвращена</span> break;
+                                    case 4: <span>Заявка отклонена</span>break;
+                                    default: <span>Статус неивестен</span>break;
+                                }
+                            }
+
+                        </td>
+                        <td>@order.DateCreate</td>
+                        <td>@order.DateConfirm</td>
+                        <td class="text-center">
+
+                            @if ((User.IsInRole("Librarian") || User.IsInRole("Admins")) && (order.Status == 0 || order.Status == 2) && ViewBag.IsLibrarianPage)
+                            {
+                                <a asp-action="Confirm" class="btn btn-sm btn-primary"
+                                   asp-route-orderId="@order.OrderID">
+                                    Подтвердить
+                                </a>
+                                <input type="hidden" name="BookId" value="@order.OrderID" />
+                                <a class="btn btn-danger btn-sm" asp-controller="Order" asp-action="Canceled" asp-route-orderId="@order.OrderID">
+                                    Отказать
+                                </a>
+
+                            }
+                            @if (order.Status == 1 && order.Name == User.Identity.Name)
+                            {<a asp-action="UpStatus" class="btn btn-sm btn-primary"
+                                asp-route-orderId="@order.OrderID">
+                                    Вернуть книгу
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            }}
+    </table>
+    <a class="btn btn-primary" asp-action="Create">Создать</a>
+</div>

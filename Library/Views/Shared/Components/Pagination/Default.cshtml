@@ -1,0 +1,96 @@
+﻿@using static Library.Models.Utils.Constants
+
+<nav class="text-center nav-center" aria-label="Pagination">
+    <ul class="pagination">
+
+        @if (ViewBag.CurrentPage != 1)
+        {
+            <li class="page-item">
+                <a class="page-link" href="/Page/1" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Первая</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="/Page/@(ViewBag.CurrentPage-1)" aria-label="Previous">
+                    <span aria-hidden="true">&lt;</span>
+                    <span class="sr-only">Предыдущая</span>
+                </a>
+            </li>
+        }
+
+        @if (ViewBag.CurrentPage <= 0 || ViewBag.NumberPage <= 0)
+        {
+
+            <li class="page-item active"><a class="page-link" href="/Page/1">1</a></li>
+        }
+        else
+        {
+            var Offset = (ViewBag.CurrentPage - 1) * PageSize;
+            if (ViewBag.NumberPage < 5)
+            {
+                for (var index = 1; index <= ViewBag.NumberPage; index++)
+                {
+                    <li class="page-item @((index == ViewBag.CurrentPage) ? "active":"")"><a class="page-link" href="/Page/@index">@index</a></li>
+                }
+
+            }
+            else if (ViewBag.CurrentPage <= 3)
+            {
+                for (var index = 1; index <= 5; index++)
+                {
+                    <li class="page-item @((index == ViewBag.CurrentPage) ? "active":"")"><a class="page-link" href="/Page/@index">@index</a></li>
+                }
+            }
+            else
+            {
+                var numberPositionForOffset = ViewBag.NumberPage - 5;
+                var numberPositionForOffsetAboutCurrentPage = ViewBag.CurrentPage - 3;
+                if (numberPositionForOffset > numberPositionForOffsetAboutCurrentPage)
+                {
+                    numberPositionForOffset = numberPositionForOffsetAboutCurrentPage;
+                }
+                if (ViewBag.CurrentPage + numberPositionForOffsetAboutCurrentPage < ViewBag.NumberPage)
+                {
+                    for (int index = 1 + numberPositionForOffsetAboutCurrentPage, l = numberPositionForOffsetAboutCurrentPage + 5; index <= l; index++)
+                    {
+                        <li class="page-item @((index == ViewBag.CurrentPage) ? "active":"")"><a class="page-link" href="/Page/@index">@index</a></li>
+
+                    }
+                }
+                else
+                {
+                    int finishElement;
+                    if (1 + numberPositionForOffsetAboutCurrentPage + 5 >= ViewBag.NumberPage)
+                    {
+                        finishElement = ViewBag.NumberPage;
+                    }
+                    else
+                    {
+                        finishElement = numberPositionForOffsetAboutCurrentPage + 5;
+                    }
+                    for (int index = 1 + numberPositionForOffsetAboutCurrentPage, l = finishElement; index <= l; index++)
+                    {
+                        <li class="page-item @((index == ViewBag.CurrentPage) ? "active":"")"><a class="page-link" href="/Page/@index">@index</a></li>
+
+                    }
+                }
+            }
+        }
+
+        @if (ViewBag.Currentpage != ViewBag.NumberPage)
+        {
+            <li class="page-item">
+                <a class="page-link" href="/Page/@(ViewBag.CurrentPage+1)" aria-label="Next">
+                    <span aria-hidden="true">&gt;</span>
+                    <span class="sr-only">Следующая</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="/Page/@ViewBag.NumberPage" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Последняя</span>
+                </a>
+            </li>}
+    </ul>
+</nav>

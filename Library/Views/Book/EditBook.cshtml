@@ -1,0 +1,52 @@
+﻿@model Library.Models.Book;
+@{
+    ViewBag.Title = "Редактирование книги";
+    Layout = "_Layout";
+}
+<div class="body-content">
+    <form method="post">
+
+        <input type="hidden" asp-for="BookId">
+        <div class="form-group">
+            <label asp-for="Name">Название книги</label>
+            <div>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <input asp-for="Name" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="GenreId">Жанр</label>
+            <div>
+                <span asp-validation-for="GenreId" class="text-danger"></span>
+            </div>
+            <select class="form-control" asp-for="GenreId">
+                <option disabled selected value="">Выберите жанр</option>
+                @foreach (var genre in ViewBag.Genres)
+                {
+                <option value="@genre.GenreId">@genre.Name</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label asp-for="CountAllBooks">Количество экземпляров</label>
+            <div>
+                <span asp-validation-for="CountAllBooks" class="text-danger"></span>
+            </div>
+            <input asp-for="CountAllBooks" class="form-control" />
+        </div>
+        <input type="hidden" asp-for="CountAvailableBooks">
+        <div class="form-group">
+            <label asp-for="DatePublication">Дата публикации</label>
+            <div>
+                <span asp-validation-for="DatePublication" class="text-danger"></span>
+            </div>
+            <input type="date" asp-for="DatePublication" class="form-control" />
+        </div>
+
+        <div class="text-center">
+            <button class="btn btn-primary" type="submit" asp-action="UpdateBook">Save</button>
+            <a asp-action="Index" class="btn btn-default">Cancel</a>
+        </div>
+    </form>
+</div>

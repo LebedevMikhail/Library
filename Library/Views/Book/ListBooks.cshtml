@@ -1,0 +1,128 @@
+﻿@model IEnumerable<Library.Models.Book>
+@{
+    ViewBag.Title = "Cписок книг";
+    Layout = $"_Layout";
+}
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="body-content">
+        <div class="row panel navbar-left col-md-2 col-sm-2 col-xs-2 col-lg-2">
+            <div id="genres">
+                @await Component.InvokeAsync("NavigationMenu")
+            </div>
+        </div>
+
+        <div class="col-md-10 col-sm-10 col-xs-10 col-lg-10 text-center menu">
+            @if (Model.Where(b => b.CountAvailableBooks > 0).Count() > 0)
+            {
+                <table class="table table-striped table-bordered table-condensed navbar-right">
+                    <thead>
+                        <tr>
+                            @if (User.IsInRole("Storekeeper") || User.IsInRole("Admins"))
+                            {
+                                <th class="text-right">ID</th>
+                            }
+                            <th>
+                                <a asp-action="Index" asp-route-sortOrder="@ViewBag.NameSort">Имя</a>
+                            </th>
+                            <th>
+                                <a asp-action="Index" asp-route-sortOrder="@ViewBag.DatePublicationSort">Дата публикации</a>
+                            </th>
+                            <th>
+                                <a asp-action="Index" asp-route-sortOrder="@ViewBag.GenreSort">Жанр</a>
+                            </th>
+                            @if (User.IsInRole("Storekeeper") || User.IsInRole("Admins"))
+                            {
+                                <th>Количество доступных книг</th>
+                                <th>Общее количество книг</th>
+                            }
+                            <th>Действия</th>
+
+                        </tr>
+                    </thead>
+
+                    @foreach (var item in Model)
+                    {
+                        if (item.CountAvailableBooks > 0)
+                        {
+                            <tr>
+                                @if (User.IsInRole("Storekeeper") || User.IsInRole("Admins"))
+                                {
+                                    <td class="text-right">@item.BookId</td>
+                                }
+                                <td>@item.Name</td>
+                                <td>@item.DatePublication</td>
+                                <td class="text-right">@ViewBag.genreRepository.GetGenreNameById(item.GenreId)</td>
+                                @if (User.IsInRole("Storekeeper") || User.IsInRole("Admins"))
+                                {
+                                    <td class="text-right">@item.CountAvailableBooks</td>
+                                    <td class="text-right">@item.CountAllBooks</td>
+                                }
+                                <td class="text-center">
+                                    @if (User.Identity.IsAuthenticated)
+                                    {<a asp-controller="Cart" asp-action="AddToCart" class="btn btn-sm btn-info"
+                                        asp-route-bookId="@item.BookId">
+                                            <i class="fa fa-plus"></i>
+                                        </a>}
+                                    @if (User.IsInRole("Storekeeper") || User.IsInRole("Admins"))
+
+                                    {
+                                        <form asp-action="DeleteBook" method="post">
+                                            <a asp-action="Edit" class="btn btn-sm btn-primary"
+                                               asp-route-bookId="@item.BookId">
+                                                Редактировать
+                                            </a>
+                                            <input type="hidden" name="BookId" value="@item.BookId" />
+                                            @if (item.CountAllBooks == item.CountAvailableBooks)
+                                            {
+                                                <button type="submit" class="btn btn-danger btn-sm">
+                                                    Удалить
+                                                </button>}
+                                        </form>
+                                    }
+
+                                </td>
+                            </tr>
+                        }
+                    }
+
+
+                </table>
+            }
+            else
+            {
+                <h3 class="pull-center">Доступных книг нет</h3>
+            }
+            @if (User.IsInRole("Storekeeper") || User.IsInRole("Admins"))
+            {
+                <a asp-controller="book" asp-action="Create" class="btn btn-primary text-center">Добавить книгу</a>
+            }
+            @if (Model.Any(b => b.CountAvailableBooks > 0))
+            {
+                @*<nav class="text-center nav-center" aria-label="Pagination">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <a class="page-link" href="/Page/1" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Первая</span>
+                                </a>
+                            </li>
+                            @for (var index = 1; index < ViewBag.NumberPage + 1; index++)
+                            {
+                                <li class="page-item"><a class="page-link" href="/Page/@index">@index</a></li>
+                            }
+                            <li class="page-item">
+                                <a class="page-link" href="/Page/@ViewBag.NumberPage" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Последняя</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>*@
+                @await Component.InvokeAsync("Pagination");
+            }
+        </div>
+
+    </div>
+
+}

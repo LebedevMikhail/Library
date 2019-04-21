@@ -1,0 +1,12 @@
+﻿@model Cart
+
+<div class="">
+    @if (Model.Lines.Count() > 0)
+    {
+        <a type="button" class="btn" data-toggle="tooltip"
+           data-placement="top" title="В корзине @Model.Lines.Count() книг"
+           href="/Cart/Index">
+            <i class="fa fa-shopping-cart"></i>
+        </a>
+    }
+</div>

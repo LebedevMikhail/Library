@@ -1,0 +1,19 @@
+﻿@model IEnumerable<Genre>
+@*<a class="btn btn-block btn-default"
+       asp-action="Index"
+       asp-controller="Book"
+       asp-route-genre="">
+        Home
+    </a>*@
+<span>Выберите жанр :</span>
+@foreach (Genre genre in Model)
+{
+    <a class="btn btn-block btn-info
+        @(genre.Name == ViewBag.query ? "btn-primary": "btn-default")"
+       asp-action="Index"
+       asp-controller="Book"
+       asp-route-query="@genre.Name"
+       asp-route-page="1">
+        @genre.Name
+    </a>
+}
