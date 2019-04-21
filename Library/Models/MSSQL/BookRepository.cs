@@ -22,7 +22,6 @@ namespace Library.Models.MSSQL
             {
                 book.CountAvailableBooks = book.CountAllBooks;
                 _context.Books.Add(book);
-
             }
             else
             {
@@ -32,7 +31,6 @@ namespace Library.Models.MSSQL
                     dbEntry.Name = book.Name;
                     dbEntry.DatePublication = book.DatePublication;
                     dbEntry.GenreId = book.GenreId;
-
                     var delta = book.CountAllBooks - dbEntry.CountAllBooks;
                     if (delta <= dbEntry.CountAvailableBooks)
                     {

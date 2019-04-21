@@ -1,7 +1,6 @@
 ﻿using Library.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-
 namespace Library.Controllers
 {
     public class GenreController : Controller
@@ -13,7 +12,5 @@ namespace Library.Controllers
             _context = context;
         }
         public ViewResult Index() => View(_context.Genres);
-
-
     }
 }

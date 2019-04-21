@@ -21,8 +21,6 @@ namespace Library.Controllers
             cart = cartService;
         }
 
-
-
         [Authorize]
         public ViewResult Index(int userId = 1, bool isLibrarianPage = false)
         {
@@ -41,7 +39,6 @@ namespace Library.Controllers
         public ActionResult Create()
         {
             ViewBag.Orders = repository.GetLines();
-
             ViewBag.DateToday = DateTime.Now;
             ViewBag.DateTodayString = DateTime.Now.Date.ToString("yyyy-MM-dd");
             var temp = new Order
@@ -103,7 +100,6 @@ namespace Library.Controllers
             return RedirectToAction("Index", "Book");
         }
 
-
         public ViewResult Completed()
         {
             IEnumerable<Book> books = cart.books;
@@ -138,6 +134,5 @@ namespace Library.Controllers
             TempData["message"] = "Статус заявки был обновлен";
             return View("Index", repository.Orders);
         }
-
     }
 }

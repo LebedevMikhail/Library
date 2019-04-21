@@ -27,7 +27,6 @@ namespace Library.Extensions
         public override async Task ProcessAsync(TagHelperContext context,
                 TagHelperOutput output)
         {
-
             List<string> names = new List<string>();
             IdentityRole role = await roleManager.FindByIdAsync(Role);
             if (role != null)

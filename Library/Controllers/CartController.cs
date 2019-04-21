@@ -32,16 +32,13 @@ namespace Library.Controllers
         {
             Book book = repository.Books
                 .FirstOrDefault(p => p.BookId == bookId);
-
             if (book != null)
             {
                 Cart cart = GetCart();
                 cart.AddItem(book);
                 SaveCart(cart);
-
             }
             TempData["message"] = $"Книга {book.Name} была добавлена в корзину";
-
             return RedirectToAction("Index", "Book");
         }
 
@@ -50,7 +47,6 @@ namespace Library.Controllers
         {
             Book book = repository.Books
                 .FirstOrDefault(p => p.BookId == bookId);
-
             if (book != null)
             {
                 Cart cart = GetCart();
@@ -58,7 +54,6 @@ namespace Library.Controllers
                 SaveCart(cart);
             }
             TempData["message"] = $"Книга {book.Name} была удалена из корзины";
-
             return RedirectToAction("Index", "Book");
         }
 

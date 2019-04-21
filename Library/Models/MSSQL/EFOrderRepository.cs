@@ -30,7 +30,6 @@ namespace Library.Models.MSSQL
 
         public IEnumerable<Order> GetOrdersByUserName(string userName)
         {
-
             return context.Orders
                 .Include(o => o.Lines)
                 .ThenInclude(o => o.Book)
@@ -52,6 +51,5 @@ namespace Library.Models.MSSQL
         }
 
         public IEnumerable<ICollection<CartLine>> GetLines() => Orders.Select(o => o.Lines);
-
     }
 }

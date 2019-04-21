@@ -26,14 +26,12 @@ namespace Library
                 options.UseSqlServer(Configuration["ConnectionStrings:ConnectionToDb"]);
 
             });
-
             services.AddDbContext<AppIdentityDbContext>(options =>
-               options.UseSqlServer(
-                   Configuration["ConnectionStrings:ConnectionToIdentityDb"]));
-
+   options.UseSqlServer(
+       Configuration["ConnectionStrings:ConnectionToIdentityDb"]));
             services.AddIdentity<AppUser, IdentityRole>()
-            .AddEntityFrameworkStores<AppIdentityDbContext>()
-            .AddDefaultTokenProviders();
+.AddEntityFrameworkStores<AppIdentityDbContext>()
+.AddDefaultTokenProviders();
             services.AddTransient<IBookRepository, BookRepository>();
             services.AddTransient<IGenreRepository, GenreRepository>();
             services.AddTransient<IOrderRepository, EFOrderRepository>();
@@ -42,8 +40,6 @@ namespace Library
             services.AddMvc();
             services.AddMemoryCache();
             services.AddSession();
-
-
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

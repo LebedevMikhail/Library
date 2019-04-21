@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Library.Controllers
 {
-     [Authorize(Roles = "Admins")]
+    [Authorize(Roles = "Admins")]
     public class RoleAdminController : Controller
     {
         private RoleManager<IdentityRole> roleManager;
@@ -20,8 +20,8 @@ namespace Library.Controllers
         {
             roleManager = roleMgr;
             userManager = userMrg;
-
         }
+
         public ViewResult Index() => View("Index", roleManager.Roles);
         public IActionResult Create() => View();
 
@@ -68,7 +68,6 @@ namespace Library.Controllers
 
         public async Task<IActionResult> Edit(string id)
         {
-
             IdentityRole role = await roleManager.FindByIdAsync(id);
             List<AppUser> members = new List<AppUser>();
             List<AppUser> nonMembers = new List<AppUser>();
@@ -124,7 +123,7 @@ namespace Library.Controllers
             if (ModelState.IsValid)
             {
                 TempData["message"] = $"Пользователи были удалены из роли {model.RoleName} ";
-                return RedirectToAction("Index","Book");
+                return RedirectToAction("Index", "Book");
             }
             else
             {

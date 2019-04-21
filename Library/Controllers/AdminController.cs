@@ -32,7 +32,6 @@ namespace Library.Controllers
         }
 
         public ViewResult Index() => View(userManager.Users);
-
         public ViewResult Create() => View();
 
         [HttpPost]
@@ -44,10 +43,8 @@ namespace Library.Controllers
                 {
                     UserName = model.Name,
                 };
-
-
                 IdentityResult result
-                    = await userManager.CreateAsync(user, model.Password);
+              = await userManager.CreateAsync(user, model.Password);
                 await userManager.AddToRoleAsync(user, "Users");
                 TempData["message"] = $"Пользователь {user.UserName} был создан";
                 if (result.Succeeded)

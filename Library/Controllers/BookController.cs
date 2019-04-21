@@ -23,15 +23,13 @@ namespace Library.Controllers
             _genreRepository = genreRepository;
             _orderRepository = orderRepository;
         }
-
-
         public ViewResult Index(int page = 1, SortState sortOrder = SortState.NameAsc, string query = "")
         {
             var books = GetBookRepository(query);
             ViewBag.GenreRepository = _genreRepository;
             ViewBag.OrderRepository = _orderRepository;
             ViewBag.NumberPage = (int)(Math.Ceiling((decimal)books.Count() / Constants.PageSize));
-            if(page > ViewBag.NumberPage)
+            if (page > ViewBag.NumberPage)
             {
                 page = 1;
             }
