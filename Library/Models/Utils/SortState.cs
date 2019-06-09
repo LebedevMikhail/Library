@@ -2,11 +2,11 @@
 {
     public enum SortState
     {
-        NameAsc,    
-        NameDesc,  
+        NameAsc,
+        NameDesc,
         GenreAsc,
-        GenreDesc,   
+        GenreDesc,
         DatePublicationAsc,
-        DatePublicationDesc 
+        DatePublicationDesc
     }
 }

@@ -263,5 +263,8 @@ __pycache__/
 # Migrations files
 Migrations/
 
-# Bootstrap
-wwwrooot/lib/bootstrap
+# wwwroot
+wwwroot/lib
+
+# Properties
+Properties/

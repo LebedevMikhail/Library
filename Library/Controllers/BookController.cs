@@ -92,7 +92,7 @@ namespace Library.Controllers
             {
                 _bookRepository.SaveBook(book);
                 TempData["message"] = $"Книга {book.Name} была обновлена";
-                return RedirectToAction("Index");
+                return RedirectToAction("ListBooks");
             }
             else
             {
@@ -115,7 +115,7 @@ namespace Library.Controllers
             {
                 TempData["message"] = $" Книга{ DeletedBook.Name} была удалена";
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("ListBooks");
         }
         public IEnumerable<Book> GetBookRepository(string query)
         {

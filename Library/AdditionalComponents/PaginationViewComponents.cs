@@ -2,7 +2,7 @@
 
 namespace Library.AdditionalComponents
 {
-    public class PaginationViewComponent: ViewComponent
+    public class PaginationViewComponent : ViewComponent
     {
         public IViewComponentResult Invoke()
         {
